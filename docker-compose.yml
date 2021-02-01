@@ -44,7 +44,7 @@ services:
     environment:
       STAGE: production 
       FORCE_RENEW: 'true'
-      DOMAINS: arai.nr07.jp -> http://nginx:8080
+      DOMAINS: arai-fukuyama.nr07.jp -> http://nginx:8080
 
 volumes:
   static:
