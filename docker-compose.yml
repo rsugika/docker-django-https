@@ -1,0 +1,50 @@
+version: '3.7'
+
+services:
+  django_gunicorn:
+    volumes:
+      - static:/static
+    env_file:
+      - .env
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    depends_on: 
+      - postgres
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static:/static
+    ports:
+      - 8080:8080
+    depends_on:
+      - django_gunicorn
+
+  postgres:
+    build: ./postgres
+    ports: 
+      - "5432:5432"
+    env_file: ./postgres/.env
+
+
+  https-portal:
+    image: steveltn/https-portal:1
+    depends_on: 
+      - nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    links:
+      - nginx
+    restart: always
+    volumes:
+      - ./certs:/var/lib/https-portal
+    environment:
+      STAGE: local
+      #FORCE_RENEW: 'true'
+      DOMAINS: example.com -> http://nginx:8080
+
+volumes:
+  static:
