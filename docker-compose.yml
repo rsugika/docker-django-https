@@ -42,9 +42,11 @@ services:
     volumes:
       - ./certs:/var/lib/https-portal
     environment:
-      STAGE: production 
-      FORCE_RENEW: 'true'
-      DOMAINS: arai-fukuyama.nr07.jp -> http://nginx:8080
+      STAGE: local
+      # STAGE: production
+      # FORCE_RENEW: 'true'
+      DOMAINS: abc.test.com -> http://nginx:8080
+      # DOMAINS: arai-fukuyama.nr07.jp -> http://nginx:8080
 
 volumes:
   static:
